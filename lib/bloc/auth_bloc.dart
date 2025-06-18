@@ -12,7 +12,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoading());
       try {
         await authService.login(event.email, event.password);
-        emit(AuthSuccess());
+        final verified = await authService.isEmailVerified();
+        if (verified) {
+          emit(AuthSuccess());
+        } else {
+          emit(AuthEmailUnverified());
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'wrong-password') {
           emit(AuthResetPrompt(event.email));
@@ -20,6 +25,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthFailure(e.code ?? 'Login failed'));
         }
       }
+    });
+
+    on<ResendEmailVerification>((_, emit) async {
+      await authService.sendEmailVerification();
+      emit(AuthEmailUnverified());
     });
 
     on<RegisterRequested>((event, emit) async {
@@ -30,6 +40,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {
         emit(AuthFailure(e.toString()));
       }
+    });
+
+    on<SignoutRequested>((event, emit) async {
+      emit(AuthLoading());
+      // Future.delayed(Duration(seconds: 3));
+      try {
+        await authService.logout();
+        emit(AuthSignout());
+        print("sign out successful");
+      } catch (e) {
+        emit(AuthSignoutFailed());
+        print("failed to signout");
+      }
+    });
+
+    on<CheckEmailVerified>((_, emit) async {
+      final verified = await authService.isEmailVerified();
+      if (verified)
+        emit(AuthSuccess());
+      else
+        emit(AuthEmailUnverified());
     });
   }
 }

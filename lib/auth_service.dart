@@ -8,11 +8,17 @@ class AuthService {
   }
 
   Future<void> register(String email, String password) async {
-    await _auth.createUserWithEmailAndPassword(
+    final result = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
+    await result.user?.sendEmailVerification();
   }
+  Future<void> sendEmailVerification() async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null && !user.emailVerified) {
+    await user.sendEmailVerification();
+  }}
 
   Future<void> resetPassword(String email) async {
     try {
@@ -20,5 +26,19 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       throw FirebaseAuthException(code: e.code, message: e.message);
     }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _auth.signOut();
+    } on FirebaseException catch (e) {
+      throw FirebaseAuthException(code: e.code, message: e.message);
+    }
+  }
+
+  Future<bool> isEmailVerified() async {
+    final user = _auth.currentUser;
+    await user?.reload();
+    return user?.emailVerified ?? false;
   }
 }

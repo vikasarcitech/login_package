@@ -9,3 +9,10 @@ class RegisterRequested extends AuthEvent {
   final String email, password;
   RegisterRequested(this.email, this.password);
 }
+
+class SignoutRequested extends AuthEvent {}
+
+
+class CheckEmailVerified extends AuthEvent {}
+
+class ResendEmailVerification extends AuthEvent {}

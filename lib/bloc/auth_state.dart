@@ -15,3 +15,9 @@ class AuthResetPrompt extends AuthState {
   final String email;
   AuthResetPrompt(this.email);
 }
+
+class AuthSignout extends AuthState {}
+
+class AuthSignoutFailed extends AuthState {}
+
+class AuthEmailUnverified extends AuthState {}
