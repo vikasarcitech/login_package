@@ -10,3 +10,8 @@ class AuthFailure extends AuthState {
   final String message;
   AuthFailure(this.message);
 }
+
+class AuthResetPrompt extends AuthState {
+  final String email;
+  AuthResetPrompt(this.email);
+}
