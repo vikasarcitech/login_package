@@ -16,3 +16,5 @@ class SignoutRequested extends AuthEvent {}
 class CheckEmailVerified extends AuthEvent {}
 
 class ResendEmailVerification extends AuthEvent {}
+
+class DeleteAccountRequested extends AuthEvent {}

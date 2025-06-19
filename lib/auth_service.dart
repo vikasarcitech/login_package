@@ -41,4 +41,16 @@ class AuthService {
     await user?.reload();
     return user?.emailVerified ?? false;
   }
+
+  Future<void> deleteAccount() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      await user.delete(); // ⚠️ User must have recently reauthenticated
+    } else {
+      throw FirebaseAuthException(
+        code: 'no-user',
+        message: 'No user currently signed in.',
+      );
+    }
+  }
 }

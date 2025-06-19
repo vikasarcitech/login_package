@@ -21,3 +21,10 @@ class AuthSignout extends AuthState {}
 class AuthSignoutFailed extends AuthState {}
 
 class AuthEmailUnverified extends AuthState {}
+
+class DeleteAccountSuccess extends AuthState {}
+
+class DeleteAccountFailure extends AuthState {
+  final String message;
+  DeleteAccountFailure(this.message);
+}
