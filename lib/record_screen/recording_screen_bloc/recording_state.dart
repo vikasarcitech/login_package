@@ -1,16 +1,14 @@
-abstract class RecordingState {
-  const RecordingState();
-}
+
+abstract class RecordingState {}
 
 class RecordingInitial extends RecordingState {}
+
 class RecordingInProgress extends RecordingState {}
+
 class RecordingStopped extends RecordingState {}
-class UploadInProgress extends RecordingState {
-  final double progress;
-  const UploadInProgress(this.progress);
+class RecordingError extends RecordingState {
+  final String message;
+
+  RecordingError(this.message);
 }
-class UploadSuccess extends RecordingState {}
-class UploadFailure extends RecordingState {
-  final String error;
-  const UploadFailure(this.error);
-}
+class PermissionsDenied extends RecordingState {}
