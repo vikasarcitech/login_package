@@ -124,7 +124,7 @@ class HaireApiService {
         options: Options(
           headers: {
             'Content-Type': 'application/json',
-            "Authorization": "Token 7729840bbec752e54dc85edf279f11b09933c6a8",
+            "Authorization": "Token ",
           },
         ),
       );
